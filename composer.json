@@ -1,0 +1,22 @@
+{
+    "name": "amestsantim/voucherator",
+    "description": "A laravel package that can generate all sorts of random voucher/coupon codes",
+    "authors": [{
+        "name": "Nahom Tamerat",
+        "email": "nahomt@amestsantim.com"
+    }],
+    "autoload": {
+        "psr-4": {
+            "AmestSantim\\Voucherator\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AmestSantim\\Voucherator\\VoucheratorServiceProvider"
+            ]
+        }
+    }
+}
