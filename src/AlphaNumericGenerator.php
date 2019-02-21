@@ -12,6 +12,7 @@ class AlphaNumericGenerator implements Generator
         $this->charSet = array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
     }
 
+    /* Used for debugging and testing purpose */
     public function charSet()
     {
         return $this->charSet;
@@ -47,8 +48,8 @@ class AlphaNumericGenerator implements Generator
         return $this;
     }
 
-    /*  The following methods (numerals, letters, upperCase, lowerCase, exclude and include) affect the character
-        set (charSet)  */
+    /*  The following methods (numerals, letters, upperCase, lowerCase, exclude and include) affect/mutate the
+        character set (charSet)  */
 
     public function numerals()
     {
@@ -96,7 +97,7 @@ class AlphaNumericGenerator implements Generator
         return $this;
     }
 
-    /*  The following three methods (capitalizeFirstCharacter, addSeparator and perfix) will transform the
+    /*  The following three methods (capitalizeFirstCharacter, addSeparator and prefix) will transform the
         vouchers after they have been generated  */
 
     public function capitalizeFirstCharacter()
@@ -112,6 +113,11 @@ class AlphaNumericGenerator implements Generator
     public function addSeparator($chunkSize, $separator)
     {
         if (!array_key_exists("addSeparator", $this->transformations)) {
+            // $separator can only be a single character. Enforce that limit!
+            $separator = (string)$separator;
+            if (strlen($separator) > 1) {
+                $separator = substr($separator, 0, 1);
+            }
             $this->transformations["addSeparator"] = function ($item) use ($chunkSize, $separator) {
                 return rtrim(chunk_split($item, $chunkSize, $separator), $separator);
             };
@@ -119,10 +125,10 @@ class AlphaNumericGenerator implements Generator
         return $this;
     }
 
-    public function prefix($prefix)
+    public function addPrefix($prefix)
     {
-        if (!array_key_exists("prefix", $this->transformations)) {
-            $this->transformations["prefix"] = function ($item) use ($prefix) {
+        if (!array_key_exists("addPrefix", $this->transformations)) {
+            $this->transformations["addPrefix"] = function ($item) use ($prefix) {
                 return $prefix . $item;
             };
         }
