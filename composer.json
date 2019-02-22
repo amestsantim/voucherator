@@ -1,6 +1,6 @@
 {
     "name": "amestsantim/voucherator",
-    "description": "A laravel package that can generate all sorts of random voucher/coupon codes",
+    "description": "A generic PHP package that can generate all sorts of random voucher/coupon codes. Laravel compatible.",
     "authors": [{
         "name": "Nahom Tamerat",
         "email": "nahomt@amestsantim.com"

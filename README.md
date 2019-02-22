@@ -2,12 +2,12 @@
 # Voucherator
 [![Total Downloads](https://poser.pugx.org/amestsantim/voucherator/downloads)](https://packagist.org/packages/amestsantim/voucherator) [![License](https://poser.pugx.org/amestsantim/voucherator/license)](https://packagist.org/packages/amestsantim/voucherator)
 
-The only voucher (alphanumeric code) generator you will ever need for PHP
-Voucherator is a fluent PHP library that is also Laravel compatible. You can use it to generate all sorts of random alpha numeric vouchers/codes.
+The only voucher (alphanumeric code) generator you will ever need for PHP.  
+Voucherator is a fluent PHP library that is also Laravel compatible. You can use it to generate all sorts of random alphanumeric vouchers/codes.
 
 ## Prerequisites
 
-This package uses PHP 7's `random_int()` which generates cryptographic random integers that are suitable for use where unbiased results are critical, such as when shuffling a deck of cards for a poker game.
+This package uses PHP 7's `random_int()` function which generates cryptographic random integers that are suitable for use where unbiased results are critical, such as when shuffling a deck of cards for a poker game.
 
 The sources of randomness used for this function are as follows and if your machine does not provide one of these, you will not be able to use this package.
 
@@ -48,7 +48,7 @@ $v = new AlphaNumericGenerator();
 printf("Your coupon code is %s", $v->letters()->length(12)->generate());
 // Your coupon code is pxEJvcvRjwNg
 ```
-If you are using it in Laravel, you can either instantiate an object from the AmestSantim\Voucherator\AlphaNumericGenerator class or you can also use the Voucher facade.
+If you are using it in Laravel, you can either instantiate an object from the `AmestSantim\Voucherator\AlphaNumericGenerator` class or you can also use the `Voucher` facade.
 
 ## Usage
 
