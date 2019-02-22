@@ -45,7 +45,8 @@ You can use it in your PHP code like this:
 require __DIR__ . '/vendor/autoload.php';
 use Amestsantim\Voucherator\AlphaNumericGenerator;
 $v = new AlphaNumericGenerator();
-printf("Your coupon code is %s", $v->letters()->length(12)->generate()); // Your coupon code is pxEJvcvRjwNg
+printf("Your coupon code is %s", $v->letters()->length(12)->generate());
+// Your coupon code is pxEJvcvRjwNg
 ```
 
 ## Usage
@@ -88,20 +89,20 @@ These are the functions that mutate the character set (charSet) from which the v
 - **letters()**  
 Calling this function will set the character set to be lower (a - z) and upper (A - Z) case alphabets 
 
-- **numerals()**
+- **numerals()**  
 This will set the character set to be numerals (0123456789)
 
 - **upperCase()**  
 This will change the characters in the character set all to upper case (A - Z). If the set happend to be upper and lower case letters before the application of the function, then the set will be consolidated (redundancies removed).
 
-- **lowerCase()**
+- **lowerCase()**  
 This will change the characters in the character set all to lower case (a - z). If the set happend to be upper and lower case letters before the application of the function, then the set will be consolidated (redundancies removed).
 
-- **exclude(string $exclusionList)**
+- **exclude(string $exclusionList)**  
 This function will remove the given characters (\$exclusionList) from the character set. If the given characters are not in the character set then it will be ignored.
 Example: `$voucherMaker->exclude('0o1li')->generate()`
 
-- **include(string $inclusionList)**
+- **include(string $inclusionList)**  
 This function will add the given characters (\$inclusionList) to the character set. If the given characters (some) are already in the character set then they will not be added again.
 Example: `$voucherMaker->include('#_*@?')->generate()`
 
@@ -112,25 +113,25 @@ They do not persist after a call to generate() function. Meaning, that once you 
 
 Also, mind the order in which you call these transformers as order might matter in some cases such as addSeparator() and addPrefix()
 
-- **capitalizeFirstCharacter()**
+- **capitalizeFirstCharacter()**  
 This function will capitalize the first character of each voucher/code
 
-- **addSeparator($chunkSize, $separator)**
+- **addSeparator($chunkSize, $separator)**  
 This function will group the characters of the vouchers in to chunks of size $chunkSize and join them with the given character (\$separator) 
 
-- **addPrefix (\$prefix)**
+- **addPrefix (\$prefix)**  
 This function will prefix all generated vouchers/codes with the given string ($prefix)
 
 ### Action and Related
 These function are action functions which tell the package to actually generate the vouchers/codes based on the (possiblly previously mutated) character set.
 
-- **generate(int $count)**
+- **generate(int $count)**  
 This function needs to be called at the end of a fluent chain. You can not call generate() in the middle of a chain. It accepts the number of vouchers to generate and returns an array of generated vouchers. 
 
-- **length(int $voucherLength)**
+- **length(int $voucherLength)**  
 This function is used to set the length (size) of your vouchers. The default value used (if you do not call this function) is 8.
 
-- **charSet()**
+- **charSet()**  
 This function returns the current character set as is. The return is array. It is included for testing and debugging purposes and would have no conceiveable use in production.
 
 ## Contributing
