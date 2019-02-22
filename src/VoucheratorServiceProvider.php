@@ -5,7 +5,7 @@ namespace AmestSantim\Voucherator;
 use AmestSantim\Voucherator\Facade\Voucher;
 use Illuminate\Support\ServiceProvider;
 
-class ContactFormServiceProvider extends ServiceProvider
+class VoucheratorServiceProvider extends ServiceProvider
 {
     public function boot()
     {
