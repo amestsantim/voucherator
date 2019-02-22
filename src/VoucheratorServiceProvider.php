@@ -14,7 +14,11 @@ class VoucheratorServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton(AlphaNumericGenerator::class, function ($app) {
+        /*$this->app->singleton(AlphaNumericGenerator::class, function ($app) {
+            return new AlphaNumericGenerator();
+        });*/
+
+        $this->app->bind('Voucher', function ($app) {
             return new AlphaNumericGenerator();
         });
     }

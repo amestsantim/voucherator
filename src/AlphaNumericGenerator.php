@@ -90,7 +90,7 @@ class AlphaNumericGenerator implements Generator
         return $this;
     }
 
-    public function include($charsAsString)
+    public function augment($charsAsString)
     {
         $inclusionList = str_split($charsAsString);
         $this->charSet = collect($this->charSet)->merge($inclusionList)->unique()->toArray();
