@@ -9,10 +9,13 @@ class VoucheratorServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app->bind('Voucher', Voucher::class);
+        //$this->app->bind('Voucher', Voucher::class);
     }
 
     public function register()
     {
+        $this->app->singleton(AlphaNumericGenerator::class, function ($app) {
+            return new AlphaNumericGenerator();
+        });
     }
 }
