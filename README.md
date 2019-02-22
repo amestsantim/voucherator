@@ -48,6 +48,7 @@ $v = new AlphaNumericGenerator();
 printf("Your coupon code is %s", $v->letters()->length(12)->generate());
 // Your coupon code is pxEJvcvRjwNg
 ```
+If you are using it in Laravel, you can either instantiate an object from the AmestSantim\Voucherator\AlphaNumericGenerator class or you can also use the Voucher facade.
 
 ## Usage
 
@@ -69,10 +70,10 @@ $voucherMaker->letters()->upperCase()->generate(200)
 $voucherMaker->numerals()->exclude('018')->generate(3) 
 // ["4454525224222425", ...]
 
-$voucherMaker->include('#*')->prefix('ET')->generate(3) 
+$voucherMaker->augment('#*')->addPrefix('ET')->generate(3) 
 // ["ET69376##4492*2736", ...]
 
-$voucherMaker->length(14)->prefix('ET')->addSeparator(4, '-')->generate(3) 
+$voucherMaker->length(14)->addPrefix('ET')->addSeparator(4, '-')->generate(3) 
 // ["ET4Z-c3pP-APDU-E4u2", ...]
 ```
 ## Documentation
@@ -102,9 +103,9 @@ This will change the characters in the character set all to lower case (a - z). 
 This function will remove the given characters (\$exclusionList) from the character set. If the given characters are not in the character set then it will be ignored.
 Example: `$voucherMaker->exclude('0o1li')->generate()`
 
-- **include(string $inclusionList)**  
+- **augment(string $inclusionList)**  
 This function will add the given characters (\$inclusionList) to the character set. If the given characters (some) are already in the character set then they will not be added again.
-Example: `$voucherMaker->include('#_*@?')->generate()`
+Example: `$voucherMaker->augment('#_*@?')->generate()`
 
 ### Transformers
 These are functions that act upon the vouchers/codes after they have been generated. They act to transform the vouchers in superficial (presentational) ways such as re-formatting them. 
