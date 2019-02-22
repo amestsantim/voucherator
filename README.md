@@ -1,6 +1,6 @@
 
 # Voucherator
-[![Latest Stable Version](https://poser.pugx.org/amestsantim/voucherator/v/stable)](https://packagist.org/packages/amestsantim/voucherator) [![Total Downloads](https://poser.pugx.org/amestsantim/voucherator/downloads)](https://packagist.org/packages/amestsantim/voucherator) [![License](https://poser.pugx.org/amestsantim/voucherator/license)](https://packagist.org/packages/amestsantim/voucherator)
+[![Total Downloads](https://poser.pugx.org/amestsantim/voucherator/downloads)](https://packagist.org/packages/amestsantim/voucherator) [![License](https://poser.pugx.org/amestsantim/voucherator/license)](https://packagist.org/packages/amestsantim/voucherator)
 
 The only voucher (alphanumeric code) generator you will ever need for PHP
 Voucherator is a fluent PHP library that is also Laravel compatible. You can use it to generate all sorts of random alpha numeric vouchers/codes.
