@@ -19,7 +19,7 @@ The sources of randomness used for this function are as follows and if your mach
 ## Installation
 
 
-### With Composer
+### Via Composer
 
 This package can be installed easily with composer - just require the  `amestsantim/voucherator`  package from the command line.
 
@@ -43,55 +43,54 @@ You can use it in your PHP code like this:
 ```php
 <?php
 require __DIR__ . '/vendor/autoload.php';
-use Amestsantim\Voucherator\AlphaNumericGenerator;
-$v = new AlphaNumericGenerator();
+use Amestsantim\Voucherator\VoucherGenerator;
+$v = new VoucherGenerator();
 printf("Your coupon code is %s", $v->letters()->length(12)->generate());
 // Your coupon code is pxEJvcvRjwNg
 ```
-If you are using it in Laravel, you can either instantiate an object from the `AmestSantim\Voucherator\AlphaNumericGenerator` class or you can also use the `Voucher` facade.
+If you are using it in Laravel, you can instantiate an object from the `AmestSantim\Voucherator\VoucherGenerator` and statically access the methods from the  `AmestSantim\Voucherator\VoucherTransformer` class, if you need to apply transformations on your generated vouchers.
 
 ## Usage
 
 ```php
-$voucherMaker = AmestSantim\Voucherator\AlphaNumericGenerator();
+$v = AmestSantim\Voucherator\VoucherGenerator();
 
-$voucherMaker->generate(10) 
+$v->generate(10)
 // ["6ae4OgTp", ...]
 
-$voucherMaker->letters()->generate(5) 
+$v->letters()->generate(5)
 // ["sVnkujCq", ...]
 
-$voucherMaker->numerals()->length(16)->generate() 
+$v->numerals()->length(16)->generate()
 // ["1734785015950957", ...]
 
-$voucherMaker->letters()->upperCase()->generate(200) 
+$v->letters()->upperCase()->generate(200)
 // ["JTMAZNIZDDSUGVHC", ...]
 
-$voucherMaker->numerals()->exclude('018')->generate(3) 
+$v->numerals()->exclude('018')->generate(3)
 // ["4454525224222425", ...]
 
-$voucherMaker->augment('#*')->addPrefix('ET')->generate(3) 
+$v->augment('#*')->addPrefix('ET')->generate(3)
 // ["ET69376##4492*2736", ...]
 
-$voucherMaker->length(14)->addPrefix('ET')->addSeparator(4, '-')->generate(3) 
+$v->length(14)->addPrefix('ET')->addSeparator(4, '-')->generate(3)
 // ["ET4Z-c3pP-APDU-E4u2", ...]
 ```
 ## Documentation
-The package is organized very simply. The `AlphaNumericGenerator` class implements an interface that forces it to implement only three basic functions.
+The package is organized very simply. It contains only two classes:
 
- - generate
- - length
- - exclude
+ - VoucherGenerator
+ - VoucherTransformer
 
-The methods of the class can be semantically classified into three:
+The methods of the `VoucherGenerator` class can be semantically classified into two:
 
 ### Mutators
-These are the functions that mutate the character set (charSet) from which the vouchers/codes are generated. The default is lower case alphabets, upper case alphabetes and numerals.
+These are the functions that mutate the character set (charSet) from which the vouchers/codes are generated. The default is lower case alphabets, upper case alphabets and numerals.
 - **letters()**  
-Calling this function will set the character set to be lower (a - z) and upper (A - Z) case alphabets 
+Calling this function will set the character set to be lower (a - z) and upper (A - Z) case alphabets.
 
 - **numerals()**  
-This will set the character set to be numerals (0123456789)
+This will set the character set to be numerals (0123456789).
 
 - **upperCase()**  
 This will change the characters in the character set all to upper case (A - Z). If the set happend to be upper and lower case letters before the application of the function, then the set will be consolidated (redundancies removed).
@@ -101,39 +100,37 @@ This will change the characters in the character set all to lower case (a - z). 
 
 - **exclude(string $exclusionList)**  
 This function will remove the given characters (\$exclusionList) from the character set. If the given characters are not in the character set then it will be ignored.
-Example: `$voucherMaker->exclude('0o1li')->generate()`
+Example: `$v->exclude('0o1li')->generate()`
 
 - **augment(string $inclusionList)**  
 This function will add the given characters (\$inclusionList) to the character set. If the given characters (some) are already in the character set then they will not be added again.
-Example: `$voucherMaker->augment('#_*@?')->generate()`
-
-### Transformers
-These are functions that act upon the vouchers/codes after they have been generated. They act to transform the vouchers in superficial (presentational) ways such as re-formatting them. 
-
-They do not persist after a call to generate() function. Meaning, that once you call the generate() function on the generator object, they will not have an effect on preceeding calls to generate() unless they are called again. This is unlike the mutators (above) which once called will have modified the character set. 
-
-Also, mind the order in which you call these transformers as order might matter in some cases such as addSeparator() and addPrefix()
-
-- **capitalizeFirstCharacter()**  
-This function will capitalize the first character of each voucher/code
-
-- **addSeparator($chunkSize, $separator)**  
-This function will group the characters of the vouchers in to chunks of size $chunkSize and join them with the given character (\$separator) 
-
-- **addPrefix (\$prefix)**  
-This function will prefix all generated vouchers/codes with the given string ($prefix)
+Example: `$v->augment('#_*@?')->generate()`
 
 ### Action and Related
-These function are action functions which tell the package to actually generate the vouchers/codes based on the (possiblly previously mutated) character set.
+These function are action functions which tell the object to actually generate the vouchers/codes based on the (possibly previously mutated) character set.
 
 - **generate(int $count)**  
-This function needs to be called at the end of a fluent chain. You can not call generate() in the middle of a chain. It accepts the number of vouchers to generate and returns an array of generated vouchers. 
+This function needs to be called at the end of a fluent chain. You can not call generate() in the middle of a chain. It accepts the number of vouchers to generate and returns an array of generated vouchers (even for a single voucher).
 
 - **length(int $voucherLength)**  
 This function is used to set the length (size) of your vouchers. The default value used (if you do not call this function) is 8.
 
 - **charSet()**  
-This function returns the current character set as is. The return is array. It is included for testing and debugging purposes and would have no conceiveable use in production.
+This function returns the current character set as is. The return is array. It is included for testing and debugging purposes and would have no conceivable use in production.
+
+The methods of the `VoucherTransformer` class are all static and can be used without instantiating an object. They act upon the vouchers/codes after they have been generated by transforming the vouchers in superficial (presentational) ways such as re-formatting and decorating them.
+
+- **capitalizeFirstCharacter()**  
+This function will capitalize the first character of each voucher/code.
+Example: `$myProperCaseVouchers = VoucherTransformer::capitalizeFirstCharacter($myVouchers)`
+
+- **addSeparator($chunkSize, $separator)**  
+This function will group the characters of the vouchers in to chunks of size $chunkSize and join them with the given character (\$separator)
+
+- **addPrefix (\$prefix)**  
+This function will prefix all generated vouchers/codes with the given string ($prefix)
+
+
 
 ## Contributing
 
@@ -141,7 +138,7 @@ The code follows the PSR-2 coding style guide. It was also written with extensib
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
 ## Authors
 
@@ -154,4 +151,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * This package was inspired by [keygen-php](https://github.com/gladchinda/keygen-php)
-

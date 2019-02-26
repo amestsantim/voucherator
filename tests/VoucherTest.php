@@ -2,7 +2,8 @@
 
 namespace Tests\Unit;
 
-use AmestSantim\Voucherator\AlphaNumericGenerator;
+use AmestSantim\Voucherator\VoucherGenerator;
+use AmestSantim\Voucherator\VoucherTransformer;
 use Tests\TestCase;
 
 class VoucherTest extends TestCase
@@ -12,7 +13,7 @@ class VoucherTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->generator = new AlphaNumericGenerator();
+        $this->generator = new VoucherGenerator();
     }
 
     public function testConstructor()
@@ -48,9 +49,9 @@ class VoucherTest extends TestCase
         $this->assertFalse(in_array('A', $this->generator->letters()->exclude('A')->charSet()));
     }
 
-    public function testIncludeMethod()
+    public function testAugmentMethod()
     {
-        $this->assertTrue(in_array('#', $this->generator->letters()->include('#')->charSet()));
+        $this->assertTrue(in_array('#', $this->generator->letters()->augment('#')->charSet()));
     }
 
     public function testNumeralsMethod()
@@ -70,13 +71,15 @@ class VoucherTest extends TestCase
 
     public function testCapitalizeFirstCharacter()
     {
-        $generated = $this->generator->letters()->lowerCase()->capitalizeFirstCharacter()->generate(1);
+        $generated = $this->generator->generate();
+        $generated = VoucherTransformer::capitalizeFirstCharacter($generated);
         $this->assertEquals(ucfirst($generated[0])[0], $generated[0][0]);
     }
 
     public function testAddSeparator()
     {
-        $generated = $this->generator->letters()->lowerCase()->length(8)->addSeparator(4, '-')->generate(1);
+        $generated = $this->generator->generate();
+        $generated = VoucherTransformer::addSeparator($generated, 4, '-');
         $pieces = explode('-', $generated[0]);
         $this->assertEquals(2, count($pieces));
         $this->assertEquals(4, strlen($pieces[0]));
@@ -85,7 +88,8 @@ class VoucherTest extends TestCase
 
     public function testPrefix()
     {
-        $generated = $this->generator->letters()->lowerCase()->prefix('ET')->generate(1);
+        $generated = $this->generator->generate();
+        $generated = VoucherTransformer::addPrefix($generated, 'ET');
         $this->assertEquals('ET', substr($generated[0], 0, 2));
     }
 }

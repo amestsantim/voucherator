@@ -1,11 +1,10 @@
 <?php
 namespace AmestSantim\Voucherator;
 
-class AlphaNumericGenerator implements Generator
+class VoucherGenerator
 {
     protected $charSet = [];
     protected $length = 8;
-    protected $transformations = [];
 
     public function __construct()
     {
@@ -35,10 +34,6 @@ class AlphaNumericGenerator implements Generator
             }
             array_push($vouchers, $generatedString);
         }
-        $this->transformations = array_reverse($this->transformations);
-        while ($transformation = array_pop($this->transformations)) {
-            $vouchers = array_map($transformation, $vouchers);
-        }
         return $vouchers;
     }
 
@@ -48,7 +43,7 @@ class AlphaNumericGenerator implements Generator
         return $this;
     }
 
-    /*  The following methods (numerals, letters, upperCase, lowerCase, exclude and include) affect/mutate the
+    /*  The following methods (numerals, letters, upperCase, lowerCase, exclude and augment) affect/mutate the
         character set (charSet)  */
 
     public function numerals()
@@ -94,44 +89,6 @@ class AlphaNumericGenerator implements Generator
     {
         $inclusionList = str_split($charsAsString);
         $this->charSet = collect($this->charSet)->merge($inclusionList)->unique()->toArray();
-        return $this;
-    }
-
-    /*  The following three methods (capitalizeFirstCharacter, addSeparator and prefix) will transform the
-        vouchers after they have been generated  */
-
-    public function capitalizeFirstCharacter()
-    {
-        if (!array_key_exists("capitalizeFirstCharacter", $this->transformations)) {
-            $this->transformations["capitalizeFirstCharacter"] = function ($item) {
-                return ucfirst($item);
-            };
-        }
-        return $this;
-    }
-
-    public function addSeparator($chunkSize, $separator)
-    {
-        if (!array_key_exists("addSeparator", $this->transformations)) {
-            // $separator can only be a single character. Enforce that limit!
-            $separator = (string)$separator;
-            if (strlen($separator) > 1) {
-                $separator = substr($separator, 0, 1);
-            }
-            $this->transformations["addSeparator"] = function ($item) use ($chunkSize, $separator) {
-                return rtrim(chunk_split($item, $chunkSize, $separator), $separator);
-            };
-        }
-        return $this;
-    }
-
-    public function addPrefix($prefix)
-    {
-        if (!array_key_exists("addPrefix", $this->transformations)) {
-            $this->transformations["addPrefix"] = function ($item) use ($prefix) {
-                return $prefix . $item;
-            };
-        }
         return $this;
     }
 }

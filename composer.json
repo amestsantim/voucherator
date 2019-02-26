@@ -11,12 +11,5 @@
         }
     },
     "license": "MIT",
-    "require": {},
-    "extra": {
-        "laravel": {
-            "providers": [
-                "AmestSantim\\Voucherator\\VoucheratorServiceProvider"
-            ]
-        }
-    }
+    "require": {}
 }
