@@ -2,7 +2,7 @@
 [![Total Downloads](https://poser.pugx.org/amestsantim/voucherator/downloads)](https://packagist.org/packages/amestsantim/voucherator) [![License](https://poser.pugx.org/amestsantim/voucherator/license)](https://packagist.org/packages/amestsantim/voucherator)
 
 The only voucher (alphanumeric code) generator you will ever need for PHP.  
-Voucherator has a fluent Generator class that can generate various types of random alphanumeric codes. The package also includes a Transformer class that you can use to apply some transformations to the generated vouchers.
+Voucherator has a fluent Generator class that can generate various types of random alphanumeric codes. The package also includes a Transformer class that you can use to apply some transformations to the generated vouchers. You can use it to generate passwords, pass codes, keys, vouchers, coupons, tickets, tokens etc.
 
 ## Prerequisites
 
@@ -30,7 +30,7 @@ Alternatively, you can manually add the voucherator package to your  `composer.j
 ```
 {
     "require": {
-        "amestsantim/voucherator": "~2.0"
+        "amestsantim/voucherator": "~2.1"
     }
 }
 ```
@@ -43,8 +43,9 @@ You can use it in your PHP code like this:
 <?php
 require __DIR__ . '/vendor/autoload.php';
 use Amestsantim\Voucherator\VoucherGenerator;
+
 $v = new VoucherGenerator();
-printf("Your coupon code is %s", $v->letters()->length(12)->generate());
+echo "Your coupon code is " . $v->letters()->length(12)->lowerCase()->generate()[0];
 // Your coupon code is pxEJvcvRjwNg
 ```
 If you are using it in Laravel, you can instantiate an object from the `AmestSantim\Voucherator\VoucherGenerator` and statically access the methods from the  `AmestSantim\Voucherator\VoucherTransformer` class, if you need to apply transformations on your generated vouchers.
