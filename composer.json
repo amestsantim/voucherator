@@ -20,12 +20,12 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Amestsantim\\Voucherator\\Tests\\Unit": "tests"
+            "Amestsantim\\Voucherator\\Tests\\Unit\\": "tests"
         }
     },
-    "license": "MIT",
     "require": {
         "php": "^7.1.3",
         "tightenco/collect": "5.8.*"
-    }
+    },
+    "license": "MIT"
 }

@@ -4,13 +4,13 @@ namespace Tests\Unit;
 
 use AmestSantim\Voucherator\VoucherGenerator;
 use AmestSantim\Voucherator\VoucherTransformer;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class VoucherTest extends TestCase
 {
     protected $generator;
 
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
         $this->generator = new VoucherGenerator();
